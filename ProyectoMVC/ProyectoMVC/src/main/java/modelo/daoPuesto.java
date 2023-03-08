@@ -5,7 +5,7 @@
  */
 package modelo;
 
-import controlador.clsUsuario;
+import controlador.clsPuesto;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,34 +14,34 @@ import java.util.List;
  *
  * @author visitante
  */
-public class daoUsuario {
+public class daoPuesto {
 
-    private static final String SQL_SELECT = "SELECT usuid, usunombre, usucontrasena FROM sin1.tbl_usuario";
-    private static final String SQL_INSERT = "INSERT INTO sin1.tbl_usuario(usunombre, usucontrasena) VALUES(?, ?)";
-    private static final String SQL_UPDATE = "UPDATE sin1.tbl_usuario SET usunombre=?, usucontrasena=? WHERE usuid = ?";
-    private static final String SQL_DELETE = "DELETE FROM sin1.tbl_usuario WHERE usuid=?";
-    private static final String SQL_SELECT_NOMBRE = "SELECT usuid, usunombre, usucontrasena FROM sin1.tbl_usuario WHERE usunombre = ?";
-    private static final String SQL_SELECT_ID = "SELECT usuid, usunombre, usucontrasena FROM sin1.tbl_usuario WHERE usuid = ?";    
+    private static final String SQL_SELECT = "SELECT codigo_puesto, nombre_puesto, estatus_puesto FROM sin1.puesto";
+    private static final String SQL_INSERT = "INSERT INTO sin1.puesto(nombre_puesto, estatus_puesto) VALUES(?, ?)";
+    private static final String SQL_UPDATE = "UPDATE sin1.puesto SET nombre_puesto=?, estatus_puesto=? WHERE codigo_puesto = ?";
+    private static final String SQL_DELETE = "DELETE FROM sin1.puesto WHERE codigo_puesto=?";
+    private static final String SQL_SELECT_NOMBRE = "SELECT codigo_puesto, nombre_puesto, estatus_puesto FROM sin1.puesto WHERE nombre_puesto = ?";
+    private static final String SQL_SELECT_ID = "SELECT codigo_puesto, nombre_puesto, estatus_puesto FROM sin1.puesto WHERE codigo_puesto = ?";    
 
-    public List<clsUsuario> consultaUsuarios() {
+    public List<clsPuesto> consultaPuesto() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         
-        List<clsUsuario> usuarios = new ArrayList<>();
+        List<clsPuesto> puesto = new ArrayList<>();
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_SELECT);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("usuid");
-                String nombre = rs.getString("usunombre");
-                String contrasena = rs.getString("usucontrasena");
-                clsUsuario usuario = new clsUsuario();
-                usuario.setIdUsuario(id);
-                usuario.setNombreUsuario(nombre);
-                usuario.setContrasenaUsuario(contrasena);
-                usuarios.add(usuario);
+                int id = rs.getInt("codigo_puesto");
+                String nombre = rs.getString("nombre_puesto");
+                String estatus = rs.getString("estatus_puesto");
+                clsPuesto puestos = new clsPuesto();
+                puestos.setCodigoPuesto(id);
+                puestos.setNombrePueto(nombre);
+                puestos.setEstatusPuesto(estatus);
+                puesto.add(puestos);
             }
         } catch (SQLException ex) {
             ex.printStackTrace(System.out);
@@ -50,18 +50,18 @@ public class daoUsuario {
             Conexion.close(stmt);
             Conexion.close(conn);
         }
-        return usuarios;
+        return puesto;
     }
 
-    public int ingresaUsuarios(clsUsuario usuario) {
+    public int ingresaPuestos(clsPuesto puesto) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
         try {
             conn = Conexion.getConnection();
             stmt = conn.prepareStatement(SQL_INSERT);
-            stmt.setString(1, usuario.getNombreUsuario());
-            stmt.setString(2, usuario.getContrasenaUsuario());
+            stmt.setString(1, puesto.getNombrePueto());
+            stmt.setString(2, puesto.getEstatusPuesto());
 
             System.out.println("ejecutando query:" + SQL_INSERT);
             rows = stmt.executeUpdate();
@@ -76,7 +76,7 @@ public class daoUsuario {
         return rows;
     }
 
-    public int actualizaUsuarios(clsUsuario usuario) {
+    public int actualizaPuestos(clsPuesto puesto) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -84,9 +84,9 @@ public class daoUsuario {
             conn = Conexion.getConnection();
             System.out.println("ejecutando query: " + SQL_UPDATE);
             stmt = conn.prepareStatement(SQL_UPDATE);
-            stmt.setString(1, usuario.getNombreUsuario());
-            stmt.setString(2, usuario.getContrasenaUsuario());
-            stmt.setInt(3, usuario.getIdUsuario());
+            stmt.setString(1, puesto.getNombrePueto());
+            stmt.setString(2, puesto.getEstatusPuesto());
+            stmt.setInt(3, puesto.getCodigoPuesto());
 
             rows = stmt.executeUpdate();
             System.out.println("Registros actualizado:" + rows);
@@ -101,7 +101,7 @@ public class daoUsuario {
         return rows;
     }
 
-    public int borrarUsuarios(clsUsuario usuario) {
+    public int borrarPuesto(clsPuesto puesto) {
         Connection conn = null;
         PreparedStatement stmt = null;
         int rows = 0;
@@ -110,7 +110,7 @@ public class daoUsuario {
             conn = Conexion.getConnection();
             System.out.println("Ejecutando query:" + SQL_DELETE);
             stmt = conn.prepareStatement(SQL_DELETE);
-            stmt.setInt(1, usuario.getIdUsuario());
+            stmt.setInt(1, puesto.getCodigoPuesto());
             rows = stmt.executeUpdate();
             System.out.println("Registros eliminados:" + rows);
         } catch (SQLException ex) {
@@ -123,27 +123,27 @@ public class daoUsuario {
         return rows;
     }
 
-    public clsUsuario consultaUsuariosPorNombre(clsUsuario usuario) {
+    public clsPuesto consultaPuestoPorNombre(clsPuesto puesto) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + usuario);
+            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + puesto);
             stmt = conn.prepareStatement(SQL_SELECT_NOMBRE);
-            //stmt.setInt(1, usuario.getIdUsuario());            
-            stmt.setString(1, usuario.getNombreUsuario());
+            //stmt.setInt(1, aplicaiones.getIdAplicacion());            
+            stmt.setString(1, puesto.getNombrePueto());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("usuid");
-                String nombre = rs.getString("usunombre");
-                String contrasena = rs.getString("usucontrasena");
+                int id = rs.getInt("codigo_puesto");
+                String nombre = rs.getString("nombre_puesto");
+                String estatus = rs.getString("estatus_puesto");
 
-                //usuario = new clsUsuario();
-                usuario.setIdUsuario(id);
-                usuario.setNombreUsuario(nombre);
-                usuario.setContrasenaUsuario(contrasena);
-                System.out.println(" registro consultado: " + usuario);                
+                //pueato = new clsPuesto();
+                puesto.setCodigoPuesto(id);
+                puesto.setNombrePueto(nombre);
+                puesto.setEstatusPuesto(estatus);
+                System.out.println(" registro consultado: " + puesto);                
             }
             //System.out.println("Registros buscado:" + persona);
         } catch (SQLException ex) {
@@ -155,29 +155,29 @@ public class daoUsuario {
         }
 
         //return personas;  // Si se utiliza un ArrayList
-        return usuario;
+        return puesto;
     }
-    public clsUsuario consultaUsuariosPorId(clsUsuario usuario) {
+    public clsPuesto consultaPuestoPorId(clsPuesto puesto) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         try {
             conn = Conexion.getConnection();
-            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + usuario);
+            System.out.println("Ejecutando query:" + SQL_SELECT_NOMBRE + " objeto recibido: " + puesto);
             stmt = conn.prepareStatement(SQL_SELECT_ID);
-            stmt.setInt(1, usuario.getIdUsuario());            
-            //stmt.setString(1, usuario.getNombreUsuario());
+            stmt.setInt(1, puesto.getCodigoPuesto());            
+            //stmt.setString(1, puesto.getNombrePueto());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int id = rs.getInt("usuid");
-                String nombre = rs.getString("usunombre");
-                String contrasena = rs.getString("usucontrasena");
+                int id = rs.getInt("codigo_puesto");
+                String nombre = rs.getString("nombre_puesto");
+                String estatus = rs.getString("estatus_puesto");
 
-                //usuario = new clsUsuario();
-                usuario.setIdUsuario(id);
-                usuario.setNombreUsuario(nombre);
-                usuario.setContrasenaUsuario(contrasena);
-                System.out.println(" registro consultado: " + usuario);                
+                //puesto = new clsPuesto();
+                puesto.setCodigoPuesto(id);
+                puesto.setNombrePueto(nombre);
+                puesto.setEstatusPuesto(estatus);
+                System.out.println(" registro consultado: " + puesto);                
             }
             //System.out.println("Registros buscado:" + persona);
         } catch (SQLException ex) {
@@ -189,6 +189,6 @@ public class daoUsuario {
         }
 
         //return personas;  // Si se utiliza un ArrayList
-        return usuario;
-    }    
+        return puesto;
+    }   
 }
