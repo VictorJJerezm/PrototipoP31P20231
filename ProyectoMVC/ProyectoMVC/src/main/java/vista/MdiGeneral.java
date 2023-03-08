@@ -21,7 +21,7 @@ public class MdiGeneral extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
         this.setExtendedState(MdiGeneral.MAXIMIZED_BOTH);
-        this.setTitle("Ejemplo Capas Victor Josué Jerez Mijangos 9959-21-2081");
+        this.setTitle("Parcial1 Victor Josué Jerez Mijangos 9959-21-2081");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
@@ -100,7 +100,7 @@ public class MdiGeneral extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem3);
 
-        jMenuItem5.setText("Mantenimiento Aplicaciones");
+        jMenuItem5.setText("Mantenimiento Puesto");
         jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem5ActionPerformed(evt);
@@ -161,7 +161,7 @@ public class MdiGeneral extends javax.swing.JFrame {
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
-        frmMantenimientoAplicaciones ventana = new frmMantenimientoAplicaciones();
+        frmMantenimientoPuesto ventana = new frmMantenimientoPuesto();
         jDesktopPane1.add(ventana);
         Dimension desktopSize = jDesktopPane1.getSize();
         Dimension FrameSize = ventana.getSize();

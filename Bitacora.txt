@@ -1,0 +1,17 @@
+commit bc0aaeb7e47d8bc16c7149433b066205576d2e77
+Author: Victor Jerez <vjerezm@miumg.edu.gt>
+Date:   Wed Mar 8 11:58:40 2023 -0600
+
+    Se sube mantenimiento Puesto
+
+commit 646d1255d228b7887711da0ad629b21ba8166a17
+Author: Victor Jerez <vjerezm@miumg.edu.gt>
+Date:   Wed Mar 8 11:10:53 2023 -0600
+
+    Se agrega programa base
+
+commit b8de69abe5f5b5b709a204ab9c1af5cfc08b6b5f
+Author: VictorJJerezm <98106604+VictorJJerezm@users.noreply.github.com>
+Date:   Wed Mar 8 11:07:49 2023 -0600
+
+    Initial commit
